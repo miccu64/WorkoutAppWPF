@@ -1,0 +1,48 @@
+﻿<Window x:Class="WorkoutApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkoutApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="Menu" Grid.Column="0">
+            <ToggleButton Name="Trainings" Click="ToggleButton_Click">
+                <Grid Height="40" Width="200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="C:/Users/konrad.micek/Downloads/pngwing.com.png"></Image>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center">Treningi</TextBlock>
+                </Grid>
+            </ToggleButton>
+            <ToggleButton Name="Plans" Click="ToggleButton_Click">
+                <Grid Height="40" Width="200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="C:/Users/konrad.micek/Downloads/pngwing.com.png"></Image>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center">Plany</TextBlock>
+                </Grid>
+            </ToggleButton>
+            <ToggleButton Name="Exercises" Click="ToggleButton_Click">
+                <Grid Height="40" Width="200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="C:/Users/konrad.micek/Downloads/pngwing.com.png"></Image>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center">Ćwiczenia</TextBlock>
+                </Grid>
+            </ToggleButton>
+        </StackPanel>
+        <ContentControl Grid.Column="1" x:Name="ViewContainer" />
+    </Grid>
+</Window>
