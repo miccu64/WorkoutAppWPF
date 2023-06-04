@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using WorkoutApp.Windows;
 
 namespace WorkoutApp
 {
@@ -8,6 +9,8 @@ namespace WorkoutApp
         public MainWindow()
         {
             InitializeComponent();
+            ExerciseDetailsWindow w = new(1);
+            w.Show();
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
