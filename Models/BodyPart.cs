@@ -1,9 +1,8 @@
 ﻿namespace WorkoutApp.Models
 {
-    public class Exercise
+    public class BodyPart
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public BodyPart BodyPart { get; set; }
     }
 }
