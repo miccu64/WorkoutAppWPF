@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,6 +17,19 @@ namespace WorkoutApp.Windows
     {
         public Exercise Exercise { get; set; }
         public CollectionViewSource ExerciseStatsViewSource { get; set; }
+
+        private DateTime selectedDate = DateTime.Now;
+        public DateTime SelectedDate
+        {
+            get { return selectedDate; }
+            set
+            {
+                if (selectedDate != value)
+                {
+                    selectedDate = value;
+                }
+            }
+        }
 
         private AppDbContext dbContext { get; set; }
 
@@ -69,7 +81,7 @@ namespace WorkoutApp.Windows
             {
                 Reps = reps,
                 Weight = weight,
-                Date = DateTime.Now
+                Date = SelectedDate
             };
             Exercise.ExerciseStats.Add(stat);
             dbContext.SaveChanges();
