@@ -63,9 +63,7 @@ namespace WorkoutApp.Windows
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!StaticHelpers.PositiveIntRegex.IsMatch(e.Text))
-            {
                 e.Handled = true;
-            }
         }
 
         private void Weight_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -74,9 +72,7 @@ namespace WorkoutApp.Windows
             string newText = textBox.Text.Insert(textBox.CaretIndex, e.Text);
 
             if (!StaticHelpers.UnsignedFloatRegex.IsMatch(newText))
-            {
                 e.Handled = true;
-            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

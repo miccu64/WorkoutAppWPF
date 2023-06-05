@@ -7,7 +7,6 @@ namespace WorkoutApp.Database
     {
         public DbSet<BodyPart> BodyParts { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<Workout> Workouts { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<ExerciseStat> ExerciseStats { get; set; }
 

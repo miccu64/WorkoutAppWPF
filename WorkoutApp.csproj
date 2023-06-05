@@ -8,14 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="workoutappicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
     <PackageReference Include="SQLite" Version="3.13.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\PlansView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Resource Include="workoutappicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\ExercisesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

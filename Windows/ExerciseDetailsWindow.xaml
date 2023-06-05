@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Historia ćwiczenia"
         SizeToContent="Width"
-        x:Name="ExerciseDetailsWindowName">
+        x:Name="ExerciseDetailsWindowName"
+        Icon="pack://application:,,,/WorkoutApp;component/workoutappicon.ico">
 
     <Window.Resources>
         <converters:GroupDateConverter x:Key="GroupDateConverter" />

@@ -37,31 +37,22 @@ namespace WorkoutApp.Database
                 new Exercise { Id = 9, Name = "Wyciskanie żołnierskie", BodyPart = context.BodyParts.Local.Single(bp => bp.Id == 6) }
             });
 
-            context.Workouts.AddRange(new List<Workout>()
+            context.Plans.AddRange(new List<Plan>()
             {
-                new Workout()
+                new Plan()
                 {
                     Id = 1,
                     Name = "Góra",
                     Description = "Trening górnych partii",
                     Exercises = context.Exercises.Local.Where(exercise => new int[]{ 1, 4, 6 }.Contains(exercise.Id)).ToList()
                 },
-                new Workout()
+                new Plan()
                 {
                     Id = 2,
                     Name = "Dół",
                     Description = "Trening dolnych partii",
                     Exercises = context.Exercises.Local.Where(exercise => new int[]{ 2, 3, 5 }.Contains(exercise.Id)).ToList()
                 },
-            });
-
-            context.Plans.Add(new Plan()
-            {
-                Id = 1,
-                Name = "Góra/dół",
-                Remarks = "4x w tygodniu",
-                Workouts = context.Workouts.Local.ToList(),
-                IsDefault = true
             });
 
             context.SaveChanges();

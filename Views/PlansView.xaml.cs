@@ -1,31 +1,41 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using WorkoutApp.Database;
 using WorkoutApp.Models;
 
 namespace WorkoutApp
 {
-    /// <summary>
-    /// Interaction logic for TrainingView.xaml
-    /// </summary>
     public partial class PlansView : UserControl
     {
-        public List<Plan> Plans { get; set; }
-
-        private AppDbContext dbContext { get; set; }
-
         public PlansView()
         {
             InitializeComponent();
-            DataContext = this;
 
-            dbContext = new AppDbContext();
-            Plans = dbContext.Plans.ToList();
+            DataContext = this;
         }
 
-        private void PlansListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public List<Exercise> Exercises { get; set; }
+
+        private void AddNewButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void DetailsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
         }

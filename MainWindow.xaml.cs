@@ -11,11 +11,9 @@ namespace WorkoutApp
         {
             InitializeComponent();
             Closing += MainWindow_Closing;
-            ExerciseDetailsWindow w = new(1);
-            w.Show();
         }
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        private void MainWindow_Closing(object? sender, CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
@@ -42,9 +40,6 @@ namespace WorkoutApp
                 // Create and set the appropriate view based on the clicked button
                 switch (clickedButton.Name)
                 {
-                    case "Trainings":
-                        ViewContainer.Content = new TrainingsView();
-                        break;
                     case "Plans":
                         ViewContainer.Content = new PlansView();
                         break;
