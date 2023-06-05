@@ -43,11 +43,16 @@ namespace WorkoutApp
             }
         }
 
-        private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OpenDetails()
         {
             Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
             ExerciseDetailsWindow w = new(selectedExercise.Id);
             w.Show();
+        }
+
+        private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OpenDetails();
         }
 
         private void SetExercises()
@@ -121,6 +126,11 @@ namespace WorkoutApp
                 RefreshExercises();
             };
             w.Show();
+        }
+
+        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenDetails();
         }
     }
 }

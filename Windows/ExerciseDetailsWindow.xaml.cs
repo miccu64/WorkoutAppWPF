@@ -22,18 +22,22 @@ namespace WorkoutApp.Windows
         public DateTime SelectedDate
         {
             get { return selectedDate; }
-            set
-            {
-                if (selectedDate != value)
-                {
-                    selectedDate = value;
-                }
-            }
+            set { selectedDate = value; }
         }
 
         private AppDbContext dbContext { get; set; }
+        private int exerciseId { get; set; }
 
-        public ExerciseDetailsWindow(int exerciseId)
+        public ExerciseDetailsWindow(int _exerciseId)
+        {
+            exerciseId = _exerciseId;
+            InitExerciseStats();
+
+            InitializeComponent();
+            DataContext = this;
+        }
+
+        public void InitExerciseStats()
         {
             dbContext = new AppDbContext();
             Exercise = dbContext.Exercises.Where(e => e.Id == exerciseId)
@@ -45,9 +49,15 @@ namespace WorkoutApp.Windows
             ExerciseStatsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Date", new GroupDateConverter()));
             ExerciseStatsViewSource.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Descending));
             ExerciseStatsViewSource.Source = Exercise.ExerciseStats;
+        }
 
-            InitializeComponent();
+        private void RefreshExerciseStats()
+        {
+            dbContext.Dispose();
+            InitExerciseStats();
+            DataContext = null;
             DataContext = this;
+            UpdateLayout();
         }
 
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -69,9 +79,12 @@ namespace WorkoutApp.Windows
             }
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!int.TryParse(Reps.Text, out int reps) || !float.TryParse(Weight.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out float weight))
+            DateTime? date = SelectDatePicker.SelectedDate;
+            if (!int.TryParse(Reps.Text, out int reps)
+                || !float.TryParse(Weight.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out float weight)
+                || date == null)
             {
                 MessageBox.Show("Podano nieprawidłowe wartości", "Błąd");
                 return;
@@ -81,12 +94,37 @@ namespace WorkoutApp.Windows
             {
                 Reps = reps,
                 Weight = weight,
-                Date = SelectedDate
+                Date = date ?? SelectedDate
             };
             Exercise.ExerciseStats.Add(stat);
             dbContext.SaveChanges();
 
             ExerciseStatsViewSource.View.Refresh();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExerciseStat selectedStat = (ExerciseStat)ListBoxExerciseStats.SelectedItem;
+            if (selectedStat == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji do usunięcia", "Błąd");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show
+            (
+                "Czy na pewno chcesz usunąć daną serię?",
+                "Potwierdzenie usunięcia",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.No)
+                return;
+
+            dbContext.Remove(selectedStat);
+            dbContext.SaveChanges();
+            RefreshExerciseStats();
         }
     }
 }
