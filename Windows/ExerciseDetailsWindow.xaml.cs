@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using WorkoutApp.Database;
+using WorkoutApp.Helpers;
 using WorkoutApp.Models;
 
 namespace WorkoutApp.Windows
@@ -15,26 +17,30 @@ namespace WorkoutApp.Windows
     public partial class ExerciseDetailsWindow : Window
     {
         public Exercise Exercise { get; set; }
-        private AppDbContext dbContext { get; set; }
-
         public CollectionViewSource ExerciseStatsViewSource { get; set; }
+
+        private AppDbContext dbContext { get; set; }
 
         public ExerciseDetailsWindow(int exerciseId)
         {
             dbContext = new AppDbContext();
-            Exercise = dbContext.Exercises.Where(e => e.Id == exerciseId).Include(e => e.BodyPart).Include(e => e.ExerciseStats).Single();
+            Exercise = dbContext.Exercises.Where(e => e.Id == exerciseId)
+                .Include(e => e.BodyPart)
+                .Include(e => e.ExerciseStats)
+                .Single();
+
+            ExerciseStatsViewSource = new CollectionViewSource();
+            ExerciseStatsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Date", new GroupDateConverter()));
+            ExerciseStatsViewSource.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Descending));
+            ExerciseStatsViewSource.Source = Exercise.ExerciseStats;
 
             InitializeComponent();
             DataContext = this;
-           // ListBoxExerciseStats.ItemsSource = Exercise.ExerciseStats;
         }
-
-        private readonly Regex positiveIntRegex = new Regex("^[1-9]\\d*$");
-        private readonly Regex unsignedFloatRegex = new Regex(@"^\d*([.,]\d{0,2})?$");
 
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!positiveIntRegex.IsMatch(e.Text))
+            if (!StaticHelpers.PositiveIntRegex.IsMatch(e.Text))
             {
                 e.Handled = true;
             }
@@ -45,7 +51,7 @@ namespace WorkoutApp.Windows
             TextBox textBox = (TextBox)sender;
             string newText = textBox.Text.Insert(textBox.CaretIndex, e.Text);
 
-            if (!unsignedFloatRegex.IsMatch(newText))
+            if (!StaticHelpers.UnsignedFloatRegex.IsMatch(newText))
             {
                 e.Handled = true;
             }
@@ -59,7 +65,7 @@ namespace WorkoutApp.Windows
                 return;
             }
 
-            ExerciseStat stat = new ExerciseStat()
+            ExerciseStat stat = new()
             {
                 Reps = reps,
                 Weight = weight,
@@ -68,9 +74,7 @@ namespace WorkoutApp.Windows
             Exercise.ExerciseStats.Add(stat);
             dbContext.SaveChanges();
 
-            ListBoxExerciseStats.ItemsSource = null;
-            ListBoxExerciseStats.ItemsSource = Exercise.ExerciseStats;
+            ExerciseStatsViewSource.View.Refresh();
         }
-
     }
 }
