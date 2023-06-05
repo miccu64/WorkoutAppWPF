@@ -6,24 +6,24 @@ using WorkoutApp.Models;
 
 namespace WorkoutApp.Windows
 {
-    public partial class CreateEditExerciseWindow : Window
+    public partial class CreateEditPlanWindow : Window
     {
-        public List<BodyPart> BodyParts { get; set; }
+        public List<Plan> Plans { get; set; }
 
         private AppDbContext dbContext { get; set; }
-        private Exercise exerciseToEdit { get; set; }
+        private Plan planToEdit { get; set; }
 
-        public CreateEditExerciseWindow()
+        public CreateEditPlanWindow()
         {
             Init();
         }
 
-        public CreateEditExerciseWindow(Exercise exercise)
+        public CreateEditPlanWindow(Plan plan)
         {
             Init();
-            exerciseToEdit = exercise;
-            ExerciseName.Text = exerciseToEdit.Name;
-            BodyPartComboBox.SelectedValue = exerciseToEdit.BodyPart.Id;
+            planToEdit = plan;
+            NameTextbox.Text = planToEdit.Name;
+            DescriptionTextbox.Text = planToEdit.Description;
             AddButton.Content = "Edytuj";
             AddWindow.Title = "Edytowanie ćwiczenia";
         }
@@ -31,7 +31,7 @@ namespace WorkoutApp.Windows
         private void Init()
         {
             dbContext = new AppDbContext();
-            BodyParts = dbContext.BodyParts.ToList();
+            Plans = dbContext.Plans.ToList();
 
             InitializeComponent();
             DataContext = this;
@@ -39,30 +39,30 @@ namespace WorkoutApp.Windows
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            string? text = ExerciseName.Text;
-            int? partId = (int)BodyPartComboBox.SelectedValue;
-            if (string.IsNullOrEmpty(text) || !(partId > 0))
+            string? name = NameTextbox.Text;
+            string? description = DescriptionTextbox.Text;
+            if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Nie uzupełniono wszystkich pól", "Błąd");
+                MessageBox.Show("Nie uzupełniono pola z nazwą", "Błąd");
                 return;
             }
 
-            if (exerciseToEdit == null)
+            if (planToEdit == null)
             {
-                dbContext.Add(new Exercise()
+                dbContext.Add(new Plan()
                 {
-                    BodyPart = dbContext.BodyParts.First(bp => bp.Id == partId),
-                    Name = text
+                    Name = name,
+                    Description = description
                 });
             }
             else
             {
-                Exercise? exercise = dbContext.Exercises.Find(exerciseToEdit.Id);
-                if (exercise == null)
+                Plan? plan = dbContext.Plans.Find(planToEdit.Id);
+                if (plan == null)
                     return;
 
-                exercise.Name = text;
-                exercise.BodyPart = dbContext.BodyParts.Find(partId) ?? exercise.BodyPart;
+                plan.Name = name;
+                plan.Description = description;
             }
 
             dbContext.SaveChanges();

@@ -37,8 +37,8 @@
         </Grid>
 
         <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <ListBox x:Name="ExercisesListBox" ItemsSource="{Binding Plans}" HorizontalContentAlignment="Stretch"
-                      MouseDoubleClick="ExercisesListBox_MouseDoubleClick">
+            <ListBox x:Name="PlansListBox" ItemsSource="{Binding Plans}" HorizontalContentAlignment="Stretch"
+                      MouseDoubleClick="PlansListBox_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

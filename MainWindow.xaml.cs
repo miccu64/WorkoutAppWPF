@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using WorkoutApp.Windows;
 
 namespace WorkoutApp
 {
@@ -20,24 +19,17 @@ namespace WorkoutApp
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            // Unselect all ToggleButtons in the StackPanel
             foreach (var button in Menu.Children)
             {
                 if (button is ToggleButton toggleButton)
-                {
                     toggleButton.IsChecked = false;
-                }
             }
 
-            // Select the clicked ToggleButton
             if (sender is ToggleButton clickedButton)
             {
                 clickedButton.IsChecked = true;
-
-                // Reset the content of the ViewContainer
                 ViewContainer.Content = null;
 
-                // Create and set the appropriate view based on the clicked button
                 switch (clickedButton.Name)
                 {
                     case "Plans":

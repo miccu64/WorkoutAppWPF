@@ -11,7 +11,7 @@ namespace WorkoutApp.Helpers
             if (value is DateTime date)
                 return date.ToString("dd-MM-yyyy");
 
-            return value.ToString();
+            return value.ToString() ?? "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

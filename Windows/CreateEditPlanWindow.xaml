@@ -1,4 +1,4 @@
-﻿<Window x:Class="WorkoutApp.Windows.CreateEditExerciseWindow"
+﻿<Window x:Class="WorkoutApp.Windows.CreateEditPlanWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WorkoutApp.Windows"
         mc:Ignorable="d"
         Name="AddWindow"
-        Title="Utwórz ćwiczenie"
+        Title="Utwórz plan"
         SizeToContent="WidthAndHeight"
         Icon="pack://application:,,,/WorkoutApp;component/workoutappicon.ico">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="20">
@@ -18,11 +18,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Nazwa ćwiczenia" FontSize="18" HorizontalAlignment="Center"/>
-        <TextBox Grid.Row="1" Name="ExerciseName" Width="300" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
+        <Label Grid.Row="0" Content="Nazwa planu" FontSize="18" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="1" Name="NameTextbox" Width="300" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
 
-        <Label Grid.Row="2" Content="Partia" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,0"/>
-        <ComboBox Grid.Row="3" x:Name="BodyPartComboBox" FontSize="18" ItemsSource="{Binding BodyParts}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <Label Grid.Row="2" Content="Opis" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        <TextBox Grid.Row="3" Name="DescriptionTextbox" Width="300" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
 
         <Button Grid.Row="4" Name="AddButton" Content="Dodaj" Click="AddButton_Click" Margin="0,40,0,0" Height="40"/>
     </Grid>

@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using WorkoutApp.Database;
 using WorkoutApp.Models;
 using WorkoutApp.Windows;
@@ -28,33 +25,6 @@ namespace WorkoutApp
             SetExercises();
         }
 
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ExercisesFiltered.Clear();
-
-            string? text = SearchTextBox.Text?.ToLower();
-            List<Exercise> exercisesToShow = string.IsNullOrEmpty(text)
-                ? ExercisesAll
-                : ExercisesAll.Where(exercise => exercise.Name.ToLower().Contains(text) || exercise.BodyPart.Name.ToLower().Contains(text)).ToList();
-
-            foreach (Exercise exercise in exercisesToShow)
-            {
-                ExercisesFiltered.Add(exercise);
-            }
-        }
-
-        private void OpenDetails()
-        {
-            Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
-            ExerciseDetailsWindow w = new(selectedExercise.Id);
-            w.Show();
-        }
-
-        private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            OpenDetails();
-        }
-
         private void SetExercises()
         {
             dbContext = new AppDbContext();
@@ -70,6 +40,34 @@ namespace WorkoutApp
             DataContext = null;
             DataContext = this;
             UpdateLayout();
+        }
+
+        private void OpenDetails()
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
+            if (selectedExercise == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji", "Błąd");
+                return;
+            }
+
+            ExerciseDetailsWindow w = new(selectedExercise.Id);
+            w.Show();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ExercisesFiltered.Clear();
+
+            string? text = SearchTextBox.Text?.ToLower();
+            List<Exercise> exercisesToShow = string.IsNullOrEmpty(text)
+                ? ExercisesAll
+                : ExercisesAll.Where(exercise => exercise.Name.ToLower().Contains(text) || exercise.BodyPart.Name.ToLower().Contains(text)).ToList();
+
+            foreach (Exercise exercise in exercisesToShow)
+            {
+                ExercisesFiltered.Add(exercise);
+            }
         }
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)
@@ -92,12 +90,12 @@ namespace WorkoutApp
             }
 
             MessageBoxResult result = MessageBox.Show
-                (
-                    "Czy na pewno chcesz usunąć ćwiczenie? Spowoduje to także usunięcie jego statystyk!",
-                    "Potwierdzenie usunięcia",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question
-                );
+            (
+                "Czy na pewno chcesz usunąć ćwiczenie? Spowoduje to także usunięcie jego statystyk!",
+                "Potwierdzenie usunięcia",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
 
             if (result == MessageBoxResult.No)
                 return;
@@ -129,6 +127,11 @@ namespace WorkoutApp
         }
 
         private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenDetails();
+        }
+
+        private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             OpenDetails();
         }
