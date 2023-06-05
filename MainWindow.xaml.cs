@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using WorkoutApp.Windows;
 
@@ -9,8 +10,14 @@ namespace WorkoutApp
         public MainWindow()
         {
             InitializeComponent();
+            Closing += MainWindow_Closing;
             ExerciseDetailsWindow w = new(1);
             w.Show();
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)

@@ -7,5 +7,38 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <TextBlock Text="Plan View Content" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Nazwa planu" FontWeight="Bold" FontSize="22" Margin="5" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="Opis" FontWeight="Bold" FontSize="22" Margin="5" HorizontalAlignment="Center"/>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ListBox x:Name="PlansListBox" ItemsSource="{Binding Plans}" HorizontalContentAlignment="Stretch"
+                      MouseDoubleClick="PlansListBox_MouseDoubleClick">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="70">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" FontSize="18" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Remarks}" FontSize="18" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

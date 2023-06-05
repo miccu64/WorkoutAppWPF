@@ -25,9 +25,7 @@ namespace WorkoutApp
             InitializeComponent();
             DataContext = this;
 
-            dbContext = new AppDbContext();
-            ExercisesAll = dbContext.Exercises.OrderBy(exercise => exercise.Name).Include(e => e.BodyPart).ToList();
-            ExercisesFiltered = new ObservableCollection<Exercise>(ExercisesAll);
+            SetExercises();
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -35,8 +33,8 @@ namespace WorkoutApp
             ExercisesFiltered.Clear();
 
             string? text = SearchTextBox.Text?.ToLower();
-            List<Exercise> exercisesToShow = string.IsNullOrEmpty(text) 
-                ? ExercisesAll 
+            List<Exercise> exercisesToShow = string.IsNullOrEmpty(text)
+                ? ExercisesAll
                 : ExercisesAll.Where(exercise => exercise.Name.ToLower().Contains(text) || exercise.BodyPart.Name.ToLower().Contains(text)).ToList();
 
             foreach (Exercise exercise in exercisesToShow)
@@ -49,6 +47,79 @@ namespace WorkoutApp
         {
             Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
             ExerciseDetailsWindow w = new(selectedExercise.Id);
+            w.Show();
+        }
+
+        private void SetExercises()
+        {
+            dbContext = new AppDbContext();
+            SearchTextBox.Text = "";
+            ExercisesAll = dbContext.Exercises.OrderBy(exercise => exercise.Name.ToLower()).Include(e => e.BodyPart).ToList();
+            ExercisesFiltered = new ObservableCollection<Exercise>(ExercisesAll);
+        }
+
+        private void RefreshExercises()
+        {
+            dbContext.Dispose();
+            SetExercises();
+            DataContext = null;
+            DataContext = this;
+            UpdateLayout();
+        }
+
+        private void AddNewButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window w = new CreateEditExerciseWindow();
+            w.Closed += (sender, e) =>
+            {
+                RefreshExercises();
+            };
+            w.Show();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
+            if (selectedExercise == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji do usunięcia", "Błąd");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show
+                (
+                    "Czy na pewno chcesz usunąć ćwiczenie? Spowoduje to także usunięcie jego statystyk!",
+                    "Potwierdzenie usunięcia",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+            if (result == MessageBoxResult.No)
+                return;
+
+            selectedExercise = dbContext.Exercises.Include(e => e.ExerciseStats).Where(e => e.Id == selectedExercise.Id).First();
+            foreach (ExerciseStat stat in selectedExercise.ExerciseStats)
+                dbContext.Remove(stat);
+
+            dbContext.Remove(selectedExercise);
+            dbContext.SaveChanges();
+            RefreshExercises();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
+            if (selectedExercise == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji do edycji", "Błąd");
+                return;
+            }
+
+            Window w = new CreateEditExerciseWindow(selectedExercise);
+            w.Closed += (sender, e) =>
+            {
+                RefreshExercises();
+            };
             w.Show();
         }
     }

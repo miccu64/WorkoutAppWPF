@@ -13,9 +13,32 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-            <Label Content="Filtr" FontSize="14"/>
-            <TextBox x:Name="SearchTextBox" Width="200" Margin="5" FontSize="14" TextChanged="SearchTextBox_TextChanged"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="0,0,20,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Filtr" FontSize="14" HorizontalAlignment="Center"/>
+                    <TextBox Grid.Row="1" x:Name="SearchTextBox" Width="200" FontSize="14" TextChanged="SearchTextBox_TextChanged"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="AddNewButton" Grid.Column="0" Content="Utwórz" Margin="5" Width="70" Click="AddNewButton_Click"/>
+                    <Button Name="DeleteButton" Grid.Column="1" Content="Usuń" Margin="5" Width="70" Click="DeleteButton_Click"/>
+                    <Button Name="EditButton" Grid.Column="2" Content="Edytuj" Margin="5" Width="70" Click="EditButton_Click"/>
+                </Grid>
+            </Grid>
         </StackPanel>
+
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
