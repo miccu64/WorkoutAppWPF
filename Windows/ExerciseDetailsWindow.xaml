@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkoutApp.Windows"
         mc:Ignorable="d"
-        Title="ExerciseDetailsWindow" Height="450" Width="800"
+        Title="Historia ćwiczenia" Height="800" Width="600"
         x:Name="ExerciseDetailsWindowName">
 
-    <Grid HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="400"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="{Binding Exercise.Name}" FontWeight="Bold" FontSize="20" Margin="5" HorizontalAlignment="Center" />
@@ -38,15 +39,35 @@
             <Button Name="Add" Grid.Column="2" Width="80" Margin="5" Content="Dodaj" FontSize="18" Click="Add_Click"/>
         </Grid>
 
-        <ListBox Name="ListBoxExerciseStats" Grid.Row="3">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Reps}" />
-                        <TextBlock Text="{Binding Weight}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Powtórzenia" FontWeight="Bold" FontSize="18" Margin="5" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="Waga [kg]" FontWeight="Bold" FontSize="18" Margin="5" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Text="Data" FontWeight="Bold" FontSize="18" Margin="5" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ListBox Name="ListBoxExerciseStats" Grid.Row="3" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Exercise.ExerciseStats}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Reps}" HorizontalAlignment="Center" FontSize="14" Margin="5"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Weight}" HorizontalAlignment="Center" FontSize="14" Margin="5"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Date, StringFormat='dd-MM-yyyy'}" HorizontalAlignment="Center" FontSize="14" Margin="5"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using WorkoutApp.Database;
 using WorkoutApp.Models;
+using WorkoutApp.Windows;
 
 namespace WorkoutApp
 {
@@ -47,7 +48,8 @@ namespace WorkoutApp
         private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
-
+            ExerciseDetailsWindow w = new(selectedExercise.Id);
+            w.Show();
         }
     }
 }

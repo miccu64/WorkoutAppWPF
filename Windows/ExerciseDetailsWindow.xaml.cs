@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -25,10 +26,11 @@ namespace WorkoutApp.Windows
 
             InitializeComponent();
             DataContext = this;
+           // ListBoxExerciseStats.ItemsSource = Exercise.ExerciseStats;
         }
 
         private readonly Regex positiveIntRegex = new Regex("^[1-9]\\d*$");
-        private readonly Regex unsignedFloatRegex = new Regex(@"^\d*(\.\d{0,2})?$");
+        private readonly Regex unsignedFloatRegex = new Regex(@"^\d*([.,]\d{0,2})?$");
 
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -51,7 +53,7 @@ namespace WorkoutApp.Windows
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (!int.TryParse(Reps.Text, out int reps) || !float.TryParse(Weight.Text, out float weight))
+            if (!int.TryParse(Reps.Text, out int reps) || !float.TryParse(Weight.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out float weight))
             {
                 MessageBox.Show("Podano nieprawidłowe wartości", "Błąd");
                 return;
@@ -66,6 +68,7 @@ namespace WorkoutApp.Windows
             Exercise.ExerciseStats.Add(stat);
             dbContext.SaveChanges();
 
+            ListBoxExerciseStats.ItemsSource = null;
             ListBoxExerciseStats.ItemsSource = Exercise.ExerciseStats;
         }
 
