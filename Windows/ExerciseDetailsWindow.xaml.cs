@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using WorkoutApp.Database;
 using WorkoutApp.Models;
@@ -15,6 +16,7 @@ namespace WorkoutApp.Windows
         public Exercise Exercise { get; set; }
         private AppDbContext dbContext { get; set; }
 
+        public CollectionViewSource ExerciseStatsViewSource { get; set; }
 
         public ExerciseDetailsWindow(int exerciseId)
         {
@@ -25,8 +27,8 @@ namespace WorkoutApp.Windows
             DataContext = this;
         }
 
-        private readonly Regex positiveIntRegex = new("^[1-9]\\d*$");
-        private readonly Regex unsignedFloatRegex = new(@"^\d*(\.\d{0,2})?$");
+        private readonly Regex positiveIntRegex = new Regex("^[1-9]\\d*$");
+        private readonly Regex unsignedFloatRegex = new Regex(@"^\d*(\.\d{0,2})?$");
 
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -55,7 +57,7 @@ namespace WorkoutApp.Windows
                 return;
             }
 
-            ExerciseStat stat = new()
+            ExerciseStat stat = new ExerciseStat()
             {
                 Reps = reps,
                 Weight = weight,
@@ -63,6 +65,9 @@ namespace WorkoutApp.Windows
             };
             Exercise.ExerciseStats.Add(stat);
             dbContext.SaveChanges();
+
+            ListBoxExerciseStats.ItemsSource = Exercise.ExerciseStats;
         }
+
     }
 }

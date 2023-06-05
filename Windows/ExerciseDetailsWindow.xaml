@@ -7,11 +7,13 @@
         mc:Ignorable="d"
         Title="ExerciseDetailsWindow" Height="450" Width="800"
         x:Name="ExerciseDetailsWindowName">
+
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="400"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="{Binding Exercise.Name}" FontWeight="Bold" FontSize="20" Margin="5" HorizontalAlignment="Center" />
@@ -35,6 +37,16 @@
             </StackPanel>
             <Button Name="Add" Grid.Column="2" Width="80" Margin="5" Content="Dodaj" FontSize="18" Click="Add_Click"/>
         </Grid>
+
+        <ListBox Name="ListBoxExerciseStats" Grid.Row="3">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Reps}" />
+                        <TextBlock Text="{Binding Weight}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
-    
 </Window>
