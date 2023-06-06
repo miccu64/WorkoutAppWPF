@@ -23,7 +23,7 @@
                   Width="400" SelectionChanged="ExerciseComboBox_SelectionChanged"/>
 
         <Label Grid.Row="2" Content="Partia" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,0"/>
-        <Label Name="BodyPartLabel" Grid.Row="3" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
+        <Label Name="BodyPartLabel" Content="-" Grid.Row="3" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
 
         <Button Grid.Row="4" Name="AddButton" Content="Dodaj" Click="AddButton_Click" Margin="0,40,0,0" Height="40"/>
     </Grid>

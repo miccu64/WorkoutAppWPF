@@ -62,7 +62,10 @@ namespace WorkoutApp.Windows
 
         private void Reps_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!StaticHelpers.PositiveIntRegex.IsMatch(e.Text))
+            TextBox textBox = (TextBox)sender;
+            string newText = textBox.Text.Insert(textBox.CaretIndex, e.Text);
+
+            if (!StaticHelpers.PositiveIntRegex.IsMatch(newText))
                 e.Handled = true;
         }
 
