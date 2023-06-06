@@ -49,6 +49,7 @@ namespace WorkoutApp
                 MessageBox.Show("Nie wybrano pozycji", "Błąd");
                 return;
             }
+
             selectedPlan = dbContext.Plans.Where(p => p.Id == selectedPlan.Id)
                 .Include(p => p.Exercises)
                 .Single();

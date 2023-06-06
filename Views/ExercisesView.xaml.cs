@@ -16,7 +16,7 @@ namespace WorkoutApp
         public ObservableCollection<Exercise> ExercisesFiltered { get; set; }
 
         private AppDbContext dbContext { get; set; }
-        private Plan Plan { get; set; }
+        private Plan? plan { get; set; }
 
         public ExercisesView()
         {
@@ -43,8 +43,10 @@ namespace WorkoutApp
             ExercisesAll = dbContext.Exercises.OrderBy(exercise => exercise.Name.ToLower()).Include(e => e.BodyPart).ToList();
             if (planId != null)
             {
-                Plan = dbContext.Plans.Find(planId);
-                List<int> exerciseToShowIds = Plan.Exercises.Select(e => e.Id).ToList();
+                plan = dbContext.Plans.Find(planId);
+                if (plan.Exercises == null) 
+                    plan.Exercises = new List<Exercise>();
+                List<int> exerciseToShowIds = plan.Exercises.Select(e => e.Id).ToList();
                 ExercisesAll = ExercisesAll.Where(e => exerciseToShowIds.Contains(e.Id)).ToList();
             }
 
@@ -54,7 +56,7 @@ namespace WorkoutApp
         private void RefreshExercises()
         {
             dbContext.Dispose();
-            SetExercises(Plan?.Id);
+            SetExercises(plan?.Id);
             DataContext = null;
             DataContext = this;
             UpdateLayout();
@@ -156,8 +158,8 @@ namespace WorkoutApp
 
         private void AddToPlanButton_Click(object sender, RoutedEventArgs e)
         {
-            List<int> exerciseToAvoidIds = Plan.Exercises.Select(e => e.Id).ToList();
-            AddExerciseToPlanWindow w = new(exerciseToAvoidIds, Plan.Id);
+            List<int> exerciseToAvoidIds = plan.Exercises.Select(e => e.Id).ToList();
+            AddExerciseToPlanWindow w = new(exerciseToAvoidIds, plan.Id);
             w.Closed += (sender, e) =>
             {
                 RefreshExercises();
@@ -185,7 +187,7 @@ namespace WorkoutApp
             if (result == MessageBoxResult.No)
                 return;
 
-            Plan plan = dbContext.Plans.Find(Plan.Id);
+            plan = dbContext.Plans.Find(plan.Id);
             selectedExercise = dbContext.Exercises.Find(selectedExercise.Id);
             plan.Exercises.Remove(selectedExercise);
 

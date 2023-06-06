@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using WorkoutApp.Database;
 using WorkoutApp.Models;
 
@@ -30,7 +31,7 @@ namespace WorkoutApp.Windows
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            Exercise exercise = (Exercise)ExerciseComboBox.SelectedItem;
+            Exercise? exercise = (Exercise)ExerciseComboBox.SelectedItem;
             if (exercise == null)
             {
                 MessageBox.Show("Nie wybrano ćwiczenia", "Błąd");
@@ -49,7 +50,7 @@ namespace WorkoutApp.Windows
             Close();
         }
 
-        private void ExerciseComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void ExerciseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedExercise = (Exercise)ExerciseComboBox.SelectedItem;
             BodyPartLabel.Content = SelectedExercise.BodyPart.Name;
