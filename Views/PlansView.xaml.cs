@@ -53,7 +53,7 @@ namespace WorkoutApp
                 .Include(p => p.Exercises)
                 .Single();
 
-            mainContentControl.Content = new ExercisesView(selectedPlan.Exercises.Select(e => e.Id).ToList());
+            mainContentControl.Content = new ExercisesView(selectedPlan.Id);
         }
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)

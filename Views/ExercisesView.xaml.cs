@@ -16,33 +16,37 @@ namespace WorkoutApp
         public ObservableCollection<Exercise> ExercisesFiltered { get; set; }
 
         private AppDbContext dbContext { get; set; }
-        private List<int> exerciseIds { get; set; }
+        private Plan Plan { get; set; }
 
         public ExercisesView()
         {
             InitializeComponent();
             DataContext = this;
 
-            SetExercises();
+            SetExercises(null);
         }
 
-        public ExercisesView(List<int> _exerciseIds)
+        public ExercisesView(int _planId)
         {
             InitializeComponent();
             DataContext = this;
-            exerciseIds = _exerciseIds;
+            PlanButtonsGrid.Visibility = Visibility.Visible;
 
-            SetExercises();
+            SetExercises(_planId);
         }
 
-        private void SetExercises()
+        private void SetExercises(int? planId)
         {
             dbContext = new AppDbContext();
             SearchTextBox.Text = "";
 
             ExercisesAll = dbContext.Exercises.OrderBy(exercise => exercise.Name.ToLower()).Include(e => e.BodyPart).ToList();
-            if (exerciseIds != null)
-                ExercisesAll = ExercisesAll.Where(e => exerciseIds.Contains(e.Id)).ToList();
+            if (planId != null)
+            {
+                Plan = dbContext.Plans.Find(planId);
+                List<int> exerciseToShowIds = Plan.Exercises.Select(e => e.Id).ToList();
+                ExercisesAll = ExercisesAll.Where(e => exerciseToShowIds.Contains(e.Id)).ToList();
+            }
 
             ExercisesFiltered = new ObservableCollection<Exercise>(ExercisesAll);
         }
@@ -50,7 +54,7 @@ namespace WorkoutApp
         private void RefreshExercises()
         {
             dbContext.Dispose();
-            SetExercises();
+            SetExercises(Plan?.Id);
             DataContext = null;
             DataContext = this;
             UpdateLayout();
@@ -148,6 +152,45 @@ namespace WorkoutApp
         private void ExercisesListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             OpenDetails();
+        }
+
+        private void AddToPlanButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<int> exerciseToAvoidIds = Plan.Exercises.Select(e => e.Id).ToList();
+            AddExerciseToPlanWindow w = new(exerciseToAvoidIds, Plan.Id);
+            w.Closed += (sender, e) =>
+            {
+                RefreshExercises();
+            };
+            w.Show();
+        }
+
+        private void DeleteFromPlanButton_Click(object sender, RoutedEventArgs e)
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListBox.SelectedItem;
+            if (selectedExercise == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji", "Błąd");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show
+            (
+                "Czy na pewno chcesz usunąć ćwiczenie z planu?",
+                "Potwierdzenie usunięcia",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.No)
+                return;
+
+            Plan plan = dbContext.Plans.Find(Plan.Id);
+            selectedExercise = dbContext.Exercises.Find(selectedExercise.Id);
+            plan.Exercises.Remove(selectedExercise);
+
+            dbContext.SaveChanges();
+            RefreshExercises();
         }
     }
 }

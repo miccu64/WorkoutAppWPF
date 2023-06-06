@@ -32,11 +32,20 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button Name="AddNewButton" Grid.Column="0" Content="Utwórz" Margin="5" Width="70" Click="AddNewButton_Click"/>
                     <Button Name="DeleteButton" Grid.Column="1" Content="Usuń" Margin="5" Width="70" Click="DeleteButton_Click"/>
                     <Button Name="EditButton" Grid.Column="2" Content="Edytuj" Margin="5" Width="70" Click="EditButton_Click"/>
                     <Button Name="DetailsButton" Grid.Column="3" Content="Szczegóły" Margin="5" Width="70" Click="DetailsButton_Click"/>
+                    <Grid Name="PlanButtonsGrid" Grid.Column="4" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Name="AddToPlanButton" Grid.Column="0" Content="Dodaj do planu" Margin="5" Click="AddToPlanButton_Click"/>
+                        <Button Name="DeleteFromPlanButton" Grid.Column="1" Content="Usuń z planu" Margin="5" Click="DeleteFromPlanButton_Click"/>
+                    </Grid>
                 </Grid>
             </Grid>
         </StackPanel>

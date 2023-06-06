@@ -1,0 +1,31 @@
+﻿<Window x:Class="WorkoutApp.Windows.AddExerciseToPlanWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkoutApp.Windows"
+        mc:Ignorable="d"
+        Name="AddWindow"
+        Title="Dodaj ćwiczenie do planu"
+        SizeToContent="WidthAndHeight"
+        Icon="pack://application:,,,/WorkoutApp;component/workoutappicon.ico">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Nazwa ćwiczenia" FontSize="18" HorizontalAlignment="Center"/>
+        <ComboBox Grid.Row="1" x:Name="ExerciseComboBox" FontSize="18"
+                  ItemsSource="{Binding Exercises}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                  Width="400" SelectionChanged="ExerciseComboBox_SelectionChanged"/>
+
+        <Label Grid.Row="2" Content="Partia" FontSize="18" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        <Label Name="BodyPartLabel" Grid.Row="3" Margin="5" FontSize="18" HorizontalAlignment="Center"/>
+
+        <Button Grid.Row="4" Name="AddButton" Content="Dodaj" Click="AddButton_Click" Margin="0,40,0,0" Height="40"/>
+    </Grid>
+</Window>
