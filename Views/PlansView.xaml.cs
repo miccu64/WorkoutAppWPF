@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +15,12 @@ namespace WorkoutApp
         public List<Plan> Plans { get; set; }
 
         private AppDbContext dbContext { get; set; }
+        private ContentControl mainContentControl { get; set; }
 
-        public PlansView()
+        public PlansView(ContentControl _contentControl)
         {
             InitializeComponent();
+            mainContentControl = _contentControl;
 
             DataContext = this;
             SetPlans();
@@ -40,14 +43,17 @@ namespace WorkoutApp
 
         private void OpenDetails()
         {
-            //Plan selectedPlan = (Plan)PlansListBox.SelectedItem;
-            //if (selectedPlan == null)
-            //{
-            //    MessageBox.Show("Nie wybrano pozycji", "Błąd");
-            //    return;
-            //}
-            //ExerciseDetailsWindow w = new(selectedPlan.Id);
-            //w.Show();
+            Plan selectedPlan = (Plan)PlansListBox.SelectedItem;
+            if (selectedPlan == null)
+            {
+                MessageBox.Show("Nie wybrano pozycji", "Błąd");
+                return;
+            }
+            selectedPlan = dbContext.Plans.Where(p => p.Id == selectedPlan.Id)
+                .Include(p => p.Exercises)
+                .Single();
+
+            mainContentControl.Content = new ExercisesView(selectedPlan.Exercises.Select(e => e.Id).ToList());
         }
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)

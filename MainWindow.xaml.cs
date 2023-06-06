@@ -10,6 +10,8 @@ namespace WorkoutApp
         {
             InitializeComponent();
             Closing += MainWindow_Closing;
+            ViewContainer.Content = new ExercisesView();
+            ExercisesButton.IsChecked = true;
         }
 
         private void MainWindow_Closing(object? sender, CancelEventArgs e)
@@ -32,10 +34,10 @@ namespace WorkoutApp
 
                 switch (clickedButton.Name)
                 {
-                    case "Plans":
-                        ViewContainer.Content = new PlansView();
+                    case "PlansButton":
+                        ViewContainer.Content = new PlansView(ViewContainer);
                         break;
-                    case "Exercises":
+                    case "ExercisesButton":
                         ViewContainer.Content = new ExercisesView();
                         break;
                 }

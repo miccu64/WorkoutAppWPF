@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="exercise.png" />
+    <None Remove="plan.png" />
     <None Remove="Windows\CreateEditPlanWindow.xaml~RF869c7198.TMP" />
     <None Remove="workoutappicon.ico" />
   </ItemGroup>
@@ -18,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="exercise.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="plan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="workoutappicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

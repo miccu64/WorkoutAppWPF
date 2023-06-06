@@ -25,7 +25,7 @@ namespace WorkoutApp.Windows
             NameTextbox.Text = planToEdit.Name;
             DescriptionTextbox.Text = planToEdit.Description;
             AddButton.Content = "Edytuj";
-            AddWindow.Title = "Edytowanie ćwiczenia";
+            AddWindow.Title = "Edytowanie planu";
         }
 
         private void Init()

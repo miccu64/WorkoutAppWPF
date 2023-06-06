@@ -16,6 +16,7 @@ namespace WorkoutApp
         public ObservableCollection<Exercise> ExercisesFiltered { get; set; }
 
         private AppDbContext dbContext { get; set; }
+        private List<int> exerciseIds { get; set; }
 
         public ExercisesView()
         {
@@ -25,11 +26,24 @@ namespace WorkoutApp
             SetExercises();
         }
 
+        public ExercisesView(List<int> _exerciseIds)
+        {
+            InitializeComponent();
+            DataContext = this;
+            exerciseIds = _exerciseIds;
+
+            SetExercises();
+        }
+
         private void SetExercises()
         {
             dbContext = new AppDbContext();
             SearchTextBox.Text = "";
+
             ExercisesAll = dbContext.Exercises.OrderBy(exercise => exercise.Name.ToLower()).Include(e => e.BodyPart).ToList();
+            if (exerciseIds != null)
+                ExercisesAll = ExercisesAll.Where(e => exerciseIds.Contains(e.Id)).ToList();
+
             ExercisesFiltered = new ObservableCollection<Exercise>(ExercisesAll);
         }
 

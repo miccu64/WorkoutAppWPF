@@ -9,27 +9,27 @@
         Icon="pack://application:,,,/WorkoutApp;component/workoutappicon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="120"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel Name="Menu" Grid.Column="0">
-            <ToggleButton Name="Plans" Click="ToggleButton_Click">
+        <StackPanel Name="Menu" Grid.Column="0" Margin="0,90,0,0">
+            <ToggleButton Name="PlansButton" Click="ToggleButton_Click">
                 <Grid Height="40" Width="200">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="C:/Users/konrad.micek/Downloads/pngwing.com.png"></Image>
+                    <Image Grid.Column="0" Source="pack://application:,,,/WorkoutApp;component/plan.png"></Image>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center">Plany</TextBlock>
                 </Grid>
             </ToggleButton>
-            <ToggleButton Name="Exercises" Click="ToggleButton_Click">
+            <ToggleButton Name="ExercisesButton" Click="ToggleButton_Click">
                 <Grid Height="40" Width="200">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="C:/Users/konrad.micek/Downloads/pngwing.com.png"></Image>
+                    <Image Grid.Column="0" Source="pack://application:,,,/WorkoutApp;component/exercise.png"></Image>
                     <TextBlock Grid.Column="1" VerticalAlignment="Center">Ćwiczenia</TextBlock>
                 </Grid>
             </ToggleButton>
